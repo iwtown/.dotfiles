@@ -313,7 +313,7 @@ cmd_status() {
         local rel="${file#${ext_dir}/}"
         # Skip npm-managed stuff
         case "${rel}" in
-            node_modules|node_modules/*|package.json|package-lock.json|planning-with-files) continue ;;
+            node_modules|node_modules/*|package.json|package-lock.json|planning-with-files|fork|fork/*) continue ;;
         esac
         
         if [ ! -e "${dotfiles_ext}/${rel}" ]; then
@@ -363,7 +363,7 @@ cmd_sync() {
         
         # Skip npm-managed stuff
         case "${rel}" in
-            node_modules|node_modules/*|package.json|package-lock.json|planning-with-files) continue ;;
+            node_modules|node_modules/*|package.json|package-lock.json|planning-with-files|fork|fork/*) continue ;;
         esac
         
         # Skip if already in dotfiles

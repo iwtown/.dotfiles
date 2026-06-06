@@ -1,3 +1,6 @@
+[user]
+	name = iwtown
+	email = wtown@live.com
 [core]
 	autocrlf = input
 [push]

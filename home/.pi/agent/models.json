@@ -1,0 +1,137 @@
+{
+  "providers": {
+    "deepseek": {
+      "api": "openai-completions",
+      "baseUrl": "https://api.deepseek.com",
+      "apiKey": "$DEEPSEEK_API_KEY",
+      "models": [
+        {
+          "id": "deepseek-v4-pro",
+          "name": "DeepSeek V4 Pro (旗舰)",
+          "input": ["text"],
+          "contextWindow": 1048576,
+          "maxTokens": 8192
+        },
+        {
+          "id": "deepseek-v4-flash",
+          "name": "DeepSeek V4 Flash (轻量)",
+          "input": ["text"],
+          "contextWindow": 1048576,
+          "maxTokens": 8192
+        }
+      ]
+    },
+    "siliconflow": {
+      "api": "openai-completions",
+      "baseUrl": "https://api.siliconflow.cn/v1",
+      "apiKey": "$SILICONFLOW_API_KEY",
+      "models": [
+        {
+          "id": "deepseek-ai/DeepSeek-V4-Pro",
+          "name": "DeepSeek V4 Pro (镜像)",
+          "input": ["text"],
+          "contextWindow": 1048576,
+          "maxTokens": 8192
+        },
+        {
+          "id": "deepseek-ai/DeepSeek-V4-Flash",
+          "name": "DeepSeek V4 Flash (镜像)",
+          "input": ["text"],
+          "contextWindow": 1048576,
+          "maxTokens": 8192
+        },
+        {
+          "id": "deepseek-ai/DeepSeek-V3.2",
+          "name": "DeepSeek V3.2 (平价)",
+          "input": ["text"],
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        },
+        {
+          "id": "deepseek-ai/DeepSeek-R1",
+          "name": "DeepSeek R1 (推理)",
+          "input": ["text"],
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        },
+        {
+          "id": "Qwen/Qwen3.6-35B-A3B",
+          "name": "Qwen3.6 35B MoE",
+          "input": ["text"],
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        },
+        {
+          "id": "Qwen/Qwen3.6-27B",
+          "name": "Qwen3.6 27B",
+          "input": ["text"],
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        },
+        {
+          "id": "stepfun-ai/Step-3.5-Flash",
+          "name": "Step 3.5 Flash (编码特化 196B MoE)",
+          "input": ["text"],
+          "contextWindow": 256000,
+          "maxTokens": 8192
+        },
+        {
+          "id": "Qwen/Qwen2.5-7B-Instruct",
+          "name": "Qwen2.5 7B (免费)",
+          "input": ["text"],
+          "contextWindow": 32768,
+          "maxTokens": 8192
+        }
+      ]
+    },
+    "opencode-zen": {
+      "api": "openai-completions",
+      "baseUrl": "https://opencode.ai/zen/v1",
+      "apiKey": "$OPENCODE_ZEN_API_KEY",
+      "models": [
+        {
+          "id": "deepseek-v4-flash-free",
+          "name": "DeepSeek V4 Flash (免费)",
+          "input": ["text"],
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        },
+        {
+          "id": "nemotron-3-super-free",
+          "name": "Nemotron 3 Super (免费)",
+          "input": ["text"],
+          "contextWindow": 256000,
+          "maxTokens": 8192
+        },
+        {
+          "id": "big-pickle",
+          "name": "Big Pickle (免费)",
+          "input": ["text"],
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        },
+        {
+          "id": "mimo-v2.5-free",
+          "name": "MiMo V2.5 (免费)",
+          "input": ["text"],
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        }
+      ]
+    },
+    "openrouter": {
+      "api": "openai-completions",
+      "baseUrl": "https://openrouter.ai/api/v1",
+      "apiKey": "$OPENROUTER_API_KEY",
+      "models": [
+        {
+          "id": "openrouter/free",
+          "name": "Free Router (仅免费)",
+          "input": ["text"],
+          "contextWindow": 200000,
+          "maxTokens": 8192
+        }
+      ]
+    }
+  }
+}

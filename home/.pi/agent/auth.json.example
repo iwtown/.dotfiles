@@ -1,0 +1,6 @@
+{
+  "tavily": {
+    "type": "env_var",
+    "key": "$TAVILY_API_KEY"
+  }
+}

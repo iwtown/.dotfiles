@@ -1,0 +1,68 @@
+{
+  "lastChangelogVersion": "0.78.1",
+  "shellPath": "/bin/bash",
+  "defaultProvider": "deepseek",
+  "defaultModel": "deepseek-v4-pro",
+  "quietStartup": true,
+  "enabledModels": [
+    "deepseek-v4-pro",
+    "deepseek-v4-flash",
+    "deepseek-ai/DeepSeek-V4-Pro",
+    "deepseek-ai/DeepSeek-V4-Flash",
+    "deepseek-ai/DeepSeek-R1",
+    "stepfun-ai/Step-3.5-Flash",
+    "openrouter/free"
+  ],
+  "subagents": {
+    "agentOverrides": {
+      "worker": { "model": "siliconflow/stepfun-ai/Step-3.5-Flash" },
+      "planner": { "model": "siliconflow/stepfun-ai/Step-3.5-Flash" },
+      "scout": { "model": "siliconflow/stepfun-ai/Step-3.5-Flash" },
+      "researcher": { "model": "siliconflow/stepfun-ai/Step-3.5-Flash" },
+      "context-builder": { "model": "siliconflow/stepfun-ai/Step-3.5-Flash" },
+      "reviewer": { "model": "siliconflow/deepseek-ai/DeepSeek-V3.2" },
+      "oracle": { "model": "siliconflow/deepseek-ai/DeepSeek-V3.2" }
+    }
+  },
+  "defaultThinkingLevel": "high",
+  "pi-fork": {
+    "costFooter": true,
+    "defaultModel": "siliconflow/stepfun-ai/Step-3.5-Flash",
+    "defaultThinking": "minimal"
+  },
+  "showHardwareCursor": true,
+  "packages": [
+    "npm:pi-context",
+    "npm:@juanibiapina/pi-extension-settings",
+    "git:https://github.com/badlogic/pi-skills.git",
+    "npm:pi-ask-user",
+    {
+      "source": "npm:@ineersa/my-pi-extensions",
+      "extensions": [
+        "-extensions/prompt-channels/prompt-channels.ts",
+        "+extensions/focus-cursor.ts",
+        "+extensions/custom-footer.ts"
+      ]
+    },
+    "npm:pi-subagents",
+    "npm:pi-mcp-adapter",
+    "npm:pi-simplify",
+    "npm:pi-btw",
+    "npm:pi-web-access",
+    "npm:pi-observational-memory",
+    "npm:@tomxprime/planning-with-files",
+    "npm:@diegopetrucci/pi-todo",
+    {
+      "source": "git:github.com/Ar9av/obsidian-wiki",
+      "skills": ["-skills/skill-creator/SKILL.md"]
+    },
+    "git:github.com/kangarooking/cangjie-skill",
+    "git:github.com/KKKKhazix/khazix-skills",
+    "../../pi-llm-wiki",
+    "npm:pi-webdav-sync",
+    "npm:pi-load-skill",
+    "npm:@ssweens/pi-handoff",
+    "npm:pi-model-router"
+  ],
+  "extensions": []
+}

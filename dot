@@ -1,0 +1,314 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ============================================================
+# dot — Pi dotfiles management CLI
+# ============================================================
+# Usage: dot [init|update|stow|doctor|link|unlink]
+
+readonly RED='\033[0;31m'
+readonly GREEN='\033[0;32m'
+readonly YELLOW='\033[0;33m'
+readonly BLUE='\033[0;34m'
+readonly CYAN='\033[0;36m'
+readonly RESET='\033[0m'
+readonly BOLD='\033[1m'
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly DOTFILES_DIR
+readonly HOME_DIR="${DOTFILES_DIR}/home"
+readonly PACKAGES_DIR="${DOTFILES_DIR}/packages"
+readonly VERSION="1.0.0"
+
+# ===== Helpers =====
+print_header() { echo -e "\n${BOLD}${BLUE}==>${RESET} ${BOLD}$1${RESET}"; }
+print_success() { echo -e "${GREEN}✓${RESET} $1"; }
+print_error() { echo -e "${RED}✗${RESET} $1" >&2; }
+print_warning() { echo -e "${YELLOW}⚠${RESET} $1"; }
+print_info() { echo -e "${CYAN}ℹ${RESET} $1"; }
+command_exists() { command -v "$1" >/dev/null 2>&1; }
+
+# ===== Commands =====
+
+cmd_stow() {
+    print_header "Stowing dotfiles"
+    
+    if ! command_exists stow; then
+        print_error "GNU Stow is not installed. Run: sudo apt install stow"
+        return 1
+    fi
+    
+    cd "${DOTFILES_DIR}"
+    
+    # Stow each top-level directory in home/ to ~
+    # Use --no-folding to avoid directory conflicts
+    stow --dir="${HOME_DIR}" --target="${HOME}" --restow --no-folding .
+    
+    print_success "Dotfiles stowed to ${HOME}"
+}
+
+cmd_init() {
+    print_header "Pi dotfiles — Initial Setup v${VERSION}"
+    echo ""
+    
+    # 1. Install apt packages
+    print_info "Step 1: Installing apt packages..."
+    if [ -f "${PACKAGES_DIR}/apt-bundle" ]; then
+        sudo apt update -qq
+        xargs -a "${PACKAGES_DIR}/apt-bundle" sudo apt install -y < /dev/null
+        print_success "apt packages installed"
+    else
+        print_warning "No apt-bundle found, skipping"
+    fi
+    
+    # 2. Check for ~/.dotfiles.env
+    print_info "Step 2: Checking environment..."
+    if [ ! -f "${HOME}/.dotfiles.env" ]; then
+        print_warning "~/.dotfiles.env not found!"
+        print_info "Creating from template..."
+        cp "${DOTFILES_DIR}/.env.example" "${HOME}/.dotfiles.env"
+        print_warning "Edit ~/.dotfiles.env with your API keys before using Pi!"
+    else
+        print_success "~/.dotfiles.env exists"
+    fi
+    
+    # 3. Copy sensitive config templates if not present
+    print_info "Step 3: Setting up Pi config..."
+    setup_pi_config
+    
+    # 4. Stow
+    print_info "Step 4: Stowing dotfiles..."
+    cmd_stow
+    
+    # 5. Source env for this session
+    if [ -f "${HOME}/.dotfiles.env" ]; then
+        set +u
+        . "${HOME}/.dotfiles.env"
+        set -u
+    fi
+    
+    # 6. Install pi if needed
+    print_info "Step 5: Checking Pi Agent..."
+    if ! command_exists pi; then
+        print_info "Installing pi..."
+        npm install -g @earendil-works/pi-coding-agent
+    fi
+    print_success "Pi Agent: $(pi --version 2>/dev/null || echo 'installed')"
+    
+    # 7. Install pi packages
+    print_info "Step 6: Installing Pi packages..."
+    if command_exists pi; then
+        pi install --all 2>&1 | tail -5 || print_warning "Some pi packages may need manual install"
+    fi
+    
+    # 8. Check pi-llm-wiki
+    print_info "Step 7: Checking pi-llm-wiki..."
+    if [ ! -d "${HOME}/pi-llm-wiki" ]; then
+        print_warning "pi-llm-wiki not found!"
+        print_info "Clone it: git clone https://github.com/YOUR_USER/pi-llm-wiki.git ~/pi-llm-wiki"
+    else
+        print_success "pi-llm-wiki found"
+    fi
+    
+    echo ""
+    print_success "Setup complete!"
+    print_info "Restart your shell or run: source ~/.bashrc"
+    print_info "Run 'dot doctor' to verify your installation"
+}
+
+setup_pi_config() {
+    # Copy .example files to actual config if they don't exist
+    local pi_agent="${HOME}/.pi/agent"
+    mkdir -p "${pi_agent}" "${HOME}/.pi"
+    
+    local examples=(
+        "${DOTFILES_DIR}/home/.pi/agent/auth.json.example:${pi_agent}/auth.json"
+        "${DOTFILES_DIR}/home/.pi/agent/settings.webdav.json.example:${pi_agent}/settings.webdav.json"
+        "${DOTFILES_DIR}/home/.pi/web-search.json.example:${HOME}/.pi/web-search.json"
+        "${DOTFILES_DIR}/home/.pi/web-search-cn.json.example:${HOME}/.pi/web-search-cn.json"
+    )
+    
+    for pair in "${examples[@]}"; do
+        local src="${pair%%:*}"
+        local dst="${pair#*:}"
+        if [ ! -f "${dst}" ]; then
+            cp "${src}" "${dst}"
+            print_info "Created ${dst} (edit with your keys)"
+        fi
+    done
+}
+
+cmd_update() {
+    print_header "Updating dotfiles"
+    
+    cd "${DOTFILES_DIR}"
+    
+    # Pull latest
+    print_info "Pulling latest changes..."
+    git pull --rebase
+    
+    # Update apt packages
+    print_info "Updating apt packages..."
+    sudo apt update -qq && sudo apt upgrade -y
+    
+    # Re-stow
+    print_info "Re-stowing..."
+    cmd_stow
+    
+    # Update pi
+    if command_exists pi; then
+        print_info "Updating pi..."
+        npm update -g @earendil-works/pi-coding-agent
+        pi update 2>&1 | tail -3 || true
+    fi
+    
+    print_success "Update complete!"
+}
+
+cmd_doctor() {
+    print_header "Dotfiles Health Check"
+    
+    local issues=0
+    
+    check() {
+        local desc="$1"
+        shift
+        if "$@"; then
+            print_success "${desc}"
+        else
+            print_error "${desc}"
+            ((issues++))
+        fi
+    }
+    
+    echo ""
+    echo -e "${BOLD}Core Tools${RESET}"
+    check "GNU Stow" command_exists stow
+    check "Git" command_exists git
+    check "tmux" command_exists tmux
+    check "curl" command_exists curl
+    
+    echo ""
+    echo -e "${BOLD}Dev Tools${RESET}"
+    check "ripgrep" command_exists rg
+    check "fd" command_exists fdfind || command_exists fd
+    check "fzf" command_exists fzf
+    check "zoxide" command_exists zoxide
+    check "bat" command_exists batcat || command_exists bat
+    check "eza" command_exists eza
+    check "jq" command_exists jq
+    check "yq" command_exists yq
+    check "delta" command_exists delta
+    
+    echo ""
+    echo -e "${BOLD}Pi Agent${RESET}"
+    check "pi CLI" command_exists pi
+    if command_exists pi; then
+        check "pi version" pi --version 2>/dev/null
+    fi
+    
+    echo ""
+    echo -e "${BOLD}Configuration${RESET}"
+    check "~/.dotfiles.env" test -f "${HOME}/.dotfiles.env"
+    check "~/.bashrc symlinked" test -L "${HOME}/.bashrc" -o -f "${HOME}/.bashrc"
+    check "~/.gitconfig exists" test -f "${HOME}/.gitconfig"
+    check "~/.tmux.conf exists" test -f "${HOME}/.tmux.conf"
+    check "~/.pi/agent/settings.json" test -f "${HOME}/.pi/agent/settings.json"
+    check "~/.pi/agent/models.json" test -f "${HOME}/.pi/agent/models.json"
+    check "pi-llm-wiki exists" test -d "${HOME}/pi-llm-wiki"
+    
+    echo ""
+    echo -e "${BOLD}Sensitive Files (should exist)${RESET}"
+    check "~/.pi/agent/auth.json" test -f "${HOME}/.pi/agent/auth.json"
+    check "~/.pi/web-search.json" test -f "${HOME}/.pi/web-search.json"
+    check "~/.pi/web-search-cn.json" test -f "${HOME}/.pi/web-search-cn.json"
+    
+    echo ""
+    echo -e "${BOLD}Symlink Check${RESET}"
+    local broken=0
+    while IFS= read -r link; do
+        if [ -L "${link}" ] && [ ! -e "${link}" ]; then
+            print_warning "Broken symlink: ${link}"
+            ((broken++))
+        fi
+    done < <(find "${HOME}" -maxdepth 3 -type l 2>/dev/null || true)
+    if [ "${broken}" -eq 0 ]; then
+        print_success "No broken symlinks"
+    fi
+    
+    echo ""
+    if [ "${issues}" -eq 0 ]; then
+        print_success "All checks passed!"
+    else
+        print_warning "${issues} issue(s) found. Run 'dot init' to fix."
+    fi
+}
+
+cmd_link() {
+    print_header "Linking dot globally"
+    local target="${HOME}/.local/bin/dot"
+    mkdir -p "${HOME}/.local/bin"
+    ln -sf "${DOTFILES_DIR}/dot" "${target}"
+    print_success "Linked: ${target} -> ${DOTFILES_DIR}/dot"
+    print_info "Make sure ~/.local/bin is in your PATH"
+}
+
+cmd_unlink() {
+    print_header "Unlinking dot"
+    rm -f "${HOME}/.local/bin/dot"
+    print_success "Removed ~/.local/bin/dot"
+}
+
+cmd_secrets() {
+    print_header "Secrets Setup"
+    
+    if [ ! -f "${HOME}/.dotfiles.env" ]; then
+        cp "${DOTFILES_DIR}/.env.example" "${HOME}/.dotfiles.env"
+        print_info "Created ~/.dotfiles.env from template"
+        print_warning "EDIT THIS FILE with your actual API keys!"
+        print_info "  vim ~/.dotfiles.env"
+    else
+        print_info "~/.dotfiles.env already exists"
+    fi
+    
+    setup_pi_config
+}
+
+cmd_help() {
+    cat << EOF
+
+${BOLD}dot v${VERSION}${RESET} — Pi dotfiles management CLI
+
+${BOLD}Commands:${RESET}
+  ${GREEN}init${RESET}        Full setup: apt + stow + pi + packages
+  ${GREEN}update${RESET}      Pull latest + apt upgrade + re-stow + pi update
+  ${GREEN}stow${RESET}        Re-symlink dotfiles from home/ to ~
+  ${GREEN}doctor${RESET}      Health check: tools, config, symlinks
+  ${GREEN}secrets${RESET}     Setup .env and sensitive config from templates
+  ${GREEN}link${RESET}        Install dot globally (~/.local/bin/dot)
+  ${GREEN}unlink${RESET}      Remove global dot symlink
+
+${BOLD}Quick Start:${RESET}
+  ./dot init       # First-time setup
+  ./dot doctor     # Verify everything works
+
+${BOLD}Repo:${RESET} https://github.com/wtown/dotfiles
+EOF
+}
+
+# ===== Main =====
+case "${1:-help}" in
+    init)       cmd_init ;;
+    update)     cmd_update ;;
+    stow)       cmd_stow ;;
+    doctor)     cmd_doctor ;;
+    link)       cmd_link ;;
+    unlink)     cmd_unlink ;;
+    secrets)    cmd_secrets ;;
+    help|--help|-h) cmd_help ;;
+    *)
+        print_error "Unknown command: ${1:-}"
+        cmd_help
+        exit 1
+        ;;
+esac

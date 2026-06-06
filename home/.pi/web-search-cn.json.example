@@ -1,0 +1,10 @@
+{
+  "tavilyApiKey": "your-tavily-key",
+  "serpApiKey": "your-serpapi-key",
+  "count": 5,
+  "searchDepth": "basic",
+  "includeAnswer": true,
+  "engine": "google",
+  "gl": "cn",
+  "hl": "zh-cn"
+}

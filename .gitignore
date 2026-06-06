@@ -1,0 +1,47 @@
+# Sensitive files - NEVER commit
+*.env
+.env.local
+.env.production
+.dotfiles.env
+secrets.*
+*secret*
+*api-key*
+
+# Pi agent runtime state (NOT config)
+home/.pi/agent/sessions/
+home/.pi/agent/tmp/
+home/.pi/agent/run-history.jsonl
+home/.pi/agent/safe-guard.json
+home/.pi/agent/safe-guard.json.bak
+home/.pi/agent/bin/
+home/.pi/agent/npm/
+home/.pi/agent/git/
+home/.pi/agent/skills/        # Re-installed by pi from packages list
+home/.pi/agent/skills-off/
+home/.pi/agent/skills-disabled/
+home/.pi/agent/extensions-disabled/
+home/.pi/agent/scaffolding/
+home/.pi/agent/.manifest.json
+home/.pi/agent/.skills_store_lock.json
+
+# Pi agent npm-installed extensions (symlinks into node_modules)
+home/.pi/agent/extensions/planning-with-files
+home/.pi/agent/extensions/package.json
+home/.pi/agent/extensions/package-lock.json
+home/.pi/agent/extensions/node_modules/
+
+# Sensitive Pi config files (use .example templates)
+home/.pi/web-search.json
+home/.pi/web-search-cn.json
+home/.pi/agent/settings.webdav.json
+home/.pi/agent/auth.json
+
+# IDE / OS
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Node (for pi-llm-wiki submodule)
+node_modules/

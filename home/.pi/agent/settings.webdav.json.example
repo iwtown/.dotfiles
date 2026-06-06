@@ -1,0 +1,9 @@
+{
+  "backend": "webdav",
+  "remoteBaseUrl": "https://dav.jianguoyun.com/dav/",
+  "username": "your-email@example.com",
+  "passwordEnv": "PI_WEBDAV_PASSWORD",
+  "remoteDir": "/pi-agent-sync",
+  "installMissingPackages": "ask",
+  "backupRetention": 10
+}

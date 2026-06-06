@@ -1,0 +1,32 @@
+# Pi dotfiles — apt packages
+# Install with: xargs -a packages/apt-bundle sudo apt install -y
+
+# Shell & terminal
+tmux
+stow
+
+# Search & navigation
+ripgrep
+fd-find
+fzf
+zoxide
+
+# File tools
+bat
+eza
+duf
+jq
+yq
+git-delta
+tldr
+
+# Dev tools
+build-essential
+git
+curl
+wget
+unzip
+
+# Network
+netcat-openbsd
+dnsutils

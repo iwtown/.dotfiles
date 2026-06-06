@@ -26,6 +26,8 @@ WSL2 dev env via GNU Stow. Bash + tmux + Pi Agent + CLI tools.
 │       │   │   └── rtk-proxy.ts
 │       │   └── prompts/          # Custom system prompts
 │       └── web-search*.json.example
+├── modules/            # Git submodules
+│   └── pi-llm-wiki/    # LLM-Wiki extension (linked to ~/pi-llm-wiki)
 ├── packages/
 │   └── apt-bundle      # apt package list
 └── .env.example        # API key template
@@ -43,6 +45,28 @@ WSL2 dev env via GNU Stow. Bash + tmux + Pi Agent + CLI tools.
 | tmux binding | `home/.tmux.conf` |
 | Add apt package | `packages/apt-bundle` |
 | API keys (not in git) | `~/.dotfiles.env` (template: `.env.example`) |
+| pi-llm-wiki development | `modules/pi-llm-wiki/` (submodule, linked to `~/pi-llm-wiki`) |
+
+## DAILY WORKFLOW
+
+```bash
+# After using Pi and making config changes:
+dot status     # Check what's drifted
+dot sync       # Pull new extensions into dotfiles
+git add -A && git commit -m "chore: sync config changes"
+git push
+
+# If you made changes to pi-llm-wiki:
+cd ~/pi-llm-wiki
+git add -A && git commit -m "feat: ..."
+git push
+cd ~/dotfiles
+git add modules/pi-llm-wiki && git commit -m "chore: bump pi-llm-wiki"
+git push
+```
+
+Auto-sync: `settings.json` is symlinked → `pi install` writes directly to dotfiles.
+New extensions created at `~/.pi/agent/extensions/` → `dot sync` moves them in.
 
 ## CONVENTIONS
 
@@ -63,6 +87,8 @@ WSL2 dev env via GNU Stow. Bash + tmux + Pi Agent + CLI tools.
 - Include `node_modules/` in extensions
 - Include pi-installed skills in dotfiles (they're re-installed by `pi install --all`)
 - Hardcode `~` or `/home/wtown` paths (use `$HOME` or `$DOTFILES_DIR`)
+- Create extensions directly in `~/.pi/agent/extensions/` (they'll be detected by `dot status` but not in dotfiles until `dot sync`)
+- Forget to commit submodule pointer after pi-llm-wiki changes
 
 ## KEY CONFIGS
 
@@ -112,7 +138,7 @@ WSL2 dev env via GNU Stow. Bash + tmux + Pi Agent + CLI tools.
 
 ```bash
 # Prerequisites: git, curl, node (via nvm or apt)
-git clone https://github.com/wtown/dotfiles.git ~/.dotfiles
+git clone --recurse-submodules https://github.com/wtown/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 cp .env.example ~/.dotfiles.env && vim ~/.dotfiles.env
 ./dot init

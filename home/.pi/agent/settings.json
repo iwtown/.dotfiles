@@ -58,7 +58,7 @@
     },
     "git:github.com/kangarooking/cangjie-skill",
     "git:github.com/KKKKhazix/khazix-skills",
-    "../../pi-llm-wiki",
+    "../../projects/pi-llm-wiki",
     "npm:pi-webdav-sync",
     "npm:pi-load-skill",
     "npm:@ssweens/pi-handoff",

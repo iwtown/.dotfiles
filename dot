@@ -105,10 +105,10 @@ cmd_init() {
     print_info "Step 7: Linking pi-llm-wiki..."
     local submodule_path="${DOTFILES_DIR}/modules/pi-llm-wiki"
     if [ -d "${submodule_path}/src" ]; then
-        if [ ! -e "${HOME}/pi-llm-wiki" ]; then
-            ln -sf "${submodule_path}" "${HOME}/pi-llm-wiki"
+        if [ ! -e "${HOME}/projects/pi-llm-wiki" ]; then
+            ln -sf "${submodule_path}" "${HOME}/projects/pi-llm-wiki"
             print_success "pi-llm-wiki linked: ~/pi-llm-wiki -> modules/pi-llm-wiki"
-        elif [ -L "${HOME}/pi-llm-wiki" ]; then
+        elif [ -L "${HOME}/projects/pi-llm-wiki" ]; then
             print_success "pi-llm-wiki already linked"
         else
             print_warning "~/pi-llm-wiki exists but is not a symlink to submodule"
@@ -157,9 +157,9 @@ cmd_update() {
     git submodule update --init --recursive
     
     # Update pi-llm-wiki if linked
-    if [ -L "${HOME}/pi-llm-wiki" ] && [ -d "${HOME}/pi-llm-wiki/.git" ]; then
+    if [ -L "${HOME}/projects/pi-llm-wiki" ] && [ -d "${HOME}/projects/pi-llm-wiki/.git" ]; then
         print_info "Updating pi-llm-wiki..."
-        git -C "${HOME}/pi-llm-wiki" pull --rebase 2>&1 || print_warning "pi-llm-wiki pull failed (uncommitted changes?)"
+        git -C "${HOME}/projects/pi-llm-wiki" pull --rebase 2>&1 || print_warning "pi-llm-wiki pull failed (uncommitted changes?)"
     fi
     
     # Update apt packages
@@ -230,7 +230,7 @@ cmd_doctor() {
     check "~/.tmux.conf exists" test -f "${HOME}/.tmux.conf"
     check "~/.pi/agent/settings.json" test -f "${HOME}/.pi/agent/settings.json"
     check "~/.pi/agent/models.json" test -f "${HOME}/.pi/agent/models.json"
-    check "pi-llm-wiki exists" test -d "${HOME}/pi-llm-wiki/src"
+    check "pi-llm-wiki exists" test -d "${HOME}/projects/pi-llm-wiki/src"
     
     echo ""
     echo -e "${BOLD}Sensitive Files (should exist)${RESET}"
@@ -406,10 +406,10 @@ cmd_sync() {
     fi
     
     # Also sync pi-llm-wiki if present
-    if [ -d "${HOME}/pi-llm-wiki" ] && [ -d "${HOME}/pi-llm-wiki/.git" ]; then
+    if [ -d "${HOME}/projects/pi-llm-wiki" ] && [ -d "${HOME}/projects/pi-llm-wiki/.git" ]; then
         echo ""
         print_info "pi-llm-wiki status:"
-        git -C "${HOME}/pi-llm-wiki" status --short | head -5 || true
+        git -C "${HOME}/projects/pi-llm-wiki" status --short | head -5 || true
     fi
 }
 

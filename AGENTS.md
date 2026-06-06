@@ -138,7 +138,7 @@ New extensions created at `~/.pi/agent/extensions/` → `dot sync` moves them in
 
 ```bash
 # Prerequisites: git, curl, node (via nvm or apt)
-git clone --recurse-submodules https://github.com/wtown/dotfiles.git ~/.dotfiles
+git clone --recurse-submodules https://github.com/iwtown/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 cp .env.example ~/.dotfiles.env && vim ~/.dotfiles.env
 ./dot init

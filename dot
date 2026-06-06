@@ -438,7 +438,7 @@ ${BOLD}Quick Start:${RESET}
   ./dot init       # First-time setup
   ./dot doctor     # Verify everything works
 
-${BOLD}Repo:${RESET} https://github.com/wtown/dotfiles
+${BOLD}Repo:${RESET} https://github.com/iwtown/dotfiles
 EOF
 }
 

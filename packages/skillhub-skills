@@ -1,0 +1,5 @@
+# SkillHub manual installs — run: skillhub install <slug>
+# These are NOT covered by settings.json packages[] list.
+find-skills
+obsidian-markdown
+skillhub-preference

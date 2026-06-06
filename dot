@@ -95,14 +95,24 @@ cmd_init() {
     fi
     print_success "Pi Agent: $(pi --version 2>/dev/null || echo 'installed')"
     
-    # 7. Install pi packages
+    # 7. Install pi packages + skillhub skills
     print_info "Step 6: Installing Pi packages..."
     if command_exists pi; then
-        pi install --all 2>&1 | tail -5 || print_warning "Some pi packages may need manual install"
+        pi install --all 2>&1 | tail -3 || print_warning "Some pi packages may need manual install"
+    fi
+    
+    print_info "Step 7: Installing SkillHub skills..."
+    if [ -f "${PACKAGES_DIR}/skillhub-skills" ] && command_exists skillhub; then
+        while IFS= read -r slug; do
+            [[ -z "$slug" || "$slug" =~ ^# ]] && continue
+            print_info "  skillhub install ${slug}"
+            skillhub install "${slug}" 2>&1 | tail -1 || print_warning "  Failed: ${slug}"
+        done < "${PACKAGES_DIR}/skillhub-skills"
+        print_success "SkillHub skills installed"
     fi
     
     # 8. Link pi-llm-wiki submodule
-    print_info "Step 7: Linking pi-llm-wiki..."
+    print_info "Step 8: Linking pi-llm-wiki..."
     local submodule_path="${DOTFILES_DIR}/modules/pi-llm-wiki"
     if [ -d "${submodule_path}/src" ]; then
         if [ ! -e "${HOME}/projects/pi-llm-wiki" ]; then

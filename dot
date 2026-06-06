@@ -101,13 +101,21 @@ cmd_init() {
         pi install --all 2>&1 | tail -5 || print_warning "Some pi packages may need manual install"
     fi
     
-    # 8. Check pi-llm-wiki
-    print_info "Step 7: Checking pi-llm-wiki..."
-    if [ ! -d "${HOME}/pi-llm-wiki" ]; then
-        print_warning "pi-llm-wiki not found!"
-        print_info "Clone it: git clone https://github.com/YOUR_USER/pi-llm-wiki.git ~/pi-llm-wiki"
+    # 8. Link pi-llm-wiki submodule
+    print_info "Step 7: Linking pi-llm-wiki..."
+    local submodule_path="${DOTFILES_DIR}/modules/pi-llm-wiki"
+    if [ -d "${submodule_path}/src" ]; then
+        if [ ! -e "${HOME}/pi-llm-wiki" ]; then
+            ln -sf "${submodule_path}" "${HOME}/pi-llm-wiki"
+            print_success "pi-llm-wiki linked: ~/pi-llm-wiki -> modules/pi-llm-wiki"
+        elif [ -L "${HOME}/pi-llm-wiki" ]; then
+            print_success "pi-llm-wiki already linked"
+        else
+            print_warning "~/pi-llm-wiki exists but is not a symlink to submodule"
+        fi
     else
-        print_success "pi-llm-wiki found"
+        print_warning "pi-llm-wiki submodule not found!"
+        print_info "Run: git submodule update --init --recursive"
     fi
     
     echo ""
@@ -146,6 +154,13 @@ cmd_update() {
     # Pull latest
     print_info "Pulling latest changes..."
     git pull --rebase
+    git submodule update --init --recursive
+    
+    # Update pi-llm-wiki if linked
+    if [ -L "${HOME}/pi-llm-wiki" ] && [ -d "${HOME}/pi-llm-wiki/.git" ]; then
+        print_info "Updating pi-llm-wiki..."
+        git -C "${HOME}/pi-llm-wiki" pull --rebase 2>&1 || print_warning "pi-llm-wiki pull failed (uncommitted changes?)"
+    fi
     
     # Update apt packages
     print_info "Updating apt packages..."
@@ -215,7 +230,7 @@ cmd_doctor() {
     check "~/.tmux.conf exists" test -f "${HOME}/.tmux.conf"
     check "~/.pi/agent/settings.json" test -f "${HOME}/.pi/agent/settings.json"
     check "~/.pi/agent/models.json" test -f "${HOME}/.pi/agent/models.json"
-    check "pi-llm-wiki exists" test -d "${HOME}/pi-llm-wiki"
+    check "pi-llm-wiki exists" test -d "${HOME}/pi-llm-wiki/src"
     
     echo ""
     echo -e "${BOLD}Sensitive Files (should exist)${RESET}"
@@ -274,6 +289,130 @@ cmd_secrets() {
     setup_pi_config
 }
 
+cmd_status() {
+    print_header "Dotfiles Status"
+    
+    cd "${DOTFILES_DIR}"
+    
+    # Git status
+    echo -e "${BOLD}Git Changes:${RESET}"
+    if git diff --quiet && git diff --cached --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+        print_success "No uncommitted changes"
+    else
+        git -c color.status=always status --short
+    fi
+    
+    echo ""
+    echo -e "${BOLD}Extension Drift:${RESET}"
+    local ext_dir="${HOME}/.pi/agent/extensions"
+    local dotfiles_ext="${DOTFILES_DIR}/home/.pi/agent/extensions"
+    local drift=0
+    
+    # Find files in live extensions that aren't in dotfiles (and aren't npm-managed)
+    while IFS= read -r -d '' file; do
+        local rel="${file#${ext_dir}/}"
+        # Skip npm-managed stuff
+        case "${rel}" in
+            node_modules|node_modules/*|package.json|package-lock.json|planning-with-files) continue ;;
+        esac
+        
+        if [ ! -e "${dotfiles_ext}/${rel}" ]; then
+            if [ -L "${file}" ]; then
+                print_info "Symlink only in live: ${rel}"
+            else
+                print_warning "Not in dotfiles: ${rel} (run 'dot sync' to add)"
+                ((drift++))
+            fi
+        fi
+    done < <(find "${ext_dir}" -mindepth 1 -maxdepth 3 \( -type f -o -type d \) -print0 2>/dev/null || true)
+    
+    # Find symlinks in dotfiles that are broken in live
+    while IFS= read -r -d '' file; do
+        local rel="${file#${dotfiles_ext}/}"
+        if [ -L "${ext_dir}/${rel}" ] && [ ! -e "${ext_dir}/${rel}" ]; then
+            print_warning "Broken symlink: extensions/${rel}"
+            ((drift++))
+        fi
+    done < <(find "${dotfiles_ext}" -type f -print0 2>/dev/null || true)
+    
+    if [ "${drift}" -eq 0 ]; then
+        print_success "Extensions in sync"
+    fi
+    
+    echo ""
+    echo -e "${BOLD}Settings:${RESET}"
+    if [ -L "${HOME}/.pi/agent/settings.json" ]; then
+        print_success "settings.json is symlinked (auto-sync)"
+    else
+        print_warning "settings.json is NOT a symlink — changes won't sync to dotfiles"
+    fi
+}
+
+cmd_sync() {
+    print_header "Syncing extensions to dotfiles"
+    
+    local ext_dir="${HOME}/.pi/agent/extensions"
+    local dotfiles_ext="${DOTFILES_DIR}/home/.pi/agent/extensions"
+    local count=0
+    
+    mkdir -p "${dotfiles_ext}"
+    
+    while IFS= read -r -d '' file; do
+        local rel="${file#${ext_dir}/}"
+        local dirpart="${rel%/*}"
+        
+        # Skip npm-managed stuff
+        case "${rel}" in
+            node_modules|node_modules/*|package.json|package-lock.json|planning-with-files) continue ;;
+        esac
+        
+        # Skip if already in dotfiles
+        if [ -e "${dotfiles_ext}/${rel}" ]; then continue; fi
+        
+        # Skip symlinks (probably from npm packages pointing into node_modules)
+        if [ -L "${file}" ]; then continue; fi
+        
+        print_info "Adding: extensions/${rel}"
+        
+        if [ -d "${file}" ]; then
+            mkdir -p "${dotfiles_ext}/${rel}"
+            cp -r "${file}/"* "${dotfiles_ext}/${rel}/" 2>/dev/null || true
+        else
+            mkdir -p "${dotfiles_ext}/${dirpart}"
+            cp "${file}" "${dotfiles_ext}/${rel}"
+        fi
+        
+        # Remove original and create symlink back to dotfiles
+        rm -rf "${file}"
+        if [ -d "${dotfiles_ext}/${rel}" ]; then
+            # For directories: symlink individual files (stow pattern)
+            while IFS= read -r -d '' f; do
+                local frel="${f#${dotfiles_ext}/${rel}/}"
+                mkdir -p "$(dirname "${ext_dir}/${rel}/${frel}")"
+                ln -sf "${f}" "${ext_dir}/${rel}/${frel}"
+            done < <(find "${dotfiles_ext}/${rel}" -type f -print0)
+        else
+            ln -sf "${dotfiles_ext}/${rel}" "${ext_dir}/${rel}"
+        fi
+        
+        ((count++))
+        print_success "Synced: extensions/${rel}"
+    done < <(find "${ext_dir}" -mindepth 1 -maxdepth 3 \( -type f -o -type d \) -print0 2>/dev/null || true)
+    
+    if [ "${count}" -eq 0 ]; then
+        print_info "No new extensions to sync"
+    else
+        print_success "Synced ${count} item(s). Review with 'dot status' then commit."
+    fi
+    
+    # Also sync pi-llm-wiki if present
+    if [ -d "${HOME}/pi-llm-wiki" ] && [ -d "${HOME}/pi-llm-wiki/.git" ]; then
+        echo ""
+        print_info "pi-llm-wiki status:"
+        git -C "${HOME}/pi-llm-wiki" status --short | head -5 || true
+    fi
+}
+
 cmd_help() {
     cat << EOF
 
@@ -283,10 +422,17 @@ ${BOLD}Commands:${RESET}
   ${GREEN}init${RESET}        Full setup: apt + stow + pi + packages
   ${GREEN}update${RESET}      Pull latest + apt upgrade + re-stow + pi update
   ${GREEN}stow${RESET}        Re-symlink dotfiles from home/ to ~
+  ${GREEN}status${RESET}      Show dotfile changes + extension drift
+  ${GREEN}sync${RESET}        Move new extensions into dotfiles
   ${GREEN}doctor${RESET}      Health check: tools, config, symlinks
   ${GREEN}secrets${RESET}     Setup .env and sensitive config from templates
   ${GREEN}link${RESET}        Install dot globally (~/.local/bin/dot)
   ${GREEN}unlink${RESET}      Remove global dot symlink
+
+${BOLD}Daily Workflow:${RESET}
+  dot status      # Check what changed
+  dot sync        # Move new extensions to dotfiles
+  git commit -m "..."  # Save your config
 
 ${BOLD}Quick Start:${RESET}
   ./dot init       # First-time setup
@@ -305,6 +451,8 @@ case "${1:-help}" in
     link)       cmd_link ;;
     unlink)     cmd_unlink ;;
     secrets)    cmd_secrets ;;
+    status)     cmd_status ;;
+    sync)       cmd_sync ;;
     help|--help|-h) cmd_help ;;
     *)
         print_error "Unknown command: ${1:-}"

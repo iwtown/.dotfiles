@@ -9,15 +9,15 @@
           "id": "deepseek-v4-pro",
           "name": "DeepSeek V4 Pro (旗舰)",
           "input": ["text"],
-          "contextWindow": 1048576,
-          "maxTokens": 8192
+          "contextWindow": 1000000,
+          "maxTokens": 384000
         },
         {
           "id": "deepseek-v4-flash",
           "name": "DeepSeek V4 Flash (轻量)",
           "input": ["text"],
-          "contextWindow": 1048576,
-          "maxTokens": 8192
+          "contextWindow": 1000000,
+          "maxTokens": 384000
         }
       ]
     },
@@ -30,15 +30,15 @@
           "id": "deepseek-ai/DeepSeek-V4-Pro",
           "name": "DeepSeek V4 Pro (镜像)",
           "input": ["text"],
-          "contextWindow": 1048576,
-          "maxTokens": 8192
+          "contextWindow": 1000000,
+          "maxTokens": 384000
         },
         {
           "id": "deepseek-ai/DeepSeek-V4-Flash",
           "name": "DeepSeek V4 Flash (镜像)",
           "input": ["text"],
-          "contextWindow": 1048576,
-          "maxTokens": 8192
+          "contextWindow": 1000000,
+          "maxTokens": 384000
         },
         {
           "id": "deepseek-ai/DeepSeek-V3.2",
@@ -94,7 +94,7 @@
           "name": "DeepSeek V4 Flash (免费)",
           "input": ["text"],
           "contextWindow": 131072,
-          "maxTokens": 8192
+          "maxTokens": 384000
         },
         {
           "id": "nemotron-3-super-free",

@@ -72,3 +72,7 @@ alias dot='~/.dotfiles/dot'
 
 # Disable tmux auto-attach (using WezTerm mux)
 # To use tmux: tmux new -s main
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+[ ! -f "$HOME/.x-cmd.root/X" ] || . "$HOME/.x-cmd.root/X" # boot up x-cmd.

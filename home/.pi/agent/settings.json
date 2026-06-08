@@ -2,7 +2,7 @@
   "lastChangelogVersion": "0.78.1",
   "shellPath": "/bin/bash",
   "defaultProvider": "deepseek",
-  "defaultModel": "deepseek-v4-pro",
+  "defaultModel": "deepseek-v4-flash",
   "quietStartup": true,
   "enabledModels": [
     "deepseek-v4-pro",
@@ -15,13 +15,27 @@
   ],
   "subagents": {
     "agentOverrides": {
-      "worker": { "model": "siliconflow/stepfun-ai/Step-3.5-Flash" },
-      "planner": { "model": "siliconflow/stepfun-ai/Step-3.5-Flash" },
-      "scout": { "model": "siliconflow/stepfun-ai/Step-3.5-Flash" },
-      "researcher": { "model": "siliconflow/stepfun-ai/Step-3.5-Flash" },
-      "context-builder": { "model": "siliconflow/stepfun-ai/Step-3.5-Flash" },
-      "reviewer": { "model": "siliconflow/deepseek-ai/DeepSeek-V3.2" },
-      "oracle": { "model": "siliconflow/deepseek-ai/DeepSeek-V3.2" }
+      "worker": {
+        "model": "siliconflow/stepfun-ai/Step-3.5-Flash"
+      },
+      "planner": {
+        "model": "siliconflow/stepfun-ai/Step-3.5-Flash"
+      },
+      "scout": {
+        "model": "siliconflow/stepfun-ai/Step-3.5-Flash"
+      },
+      "researcher": {
+        "model": "siliconflow/stepfun-ai/Step-3.5-Flash"
+      },
+      "context-builder": {
+        "model": "siliconflow/stepfun-ai/Step-3.5-Flash"
+      },
+      "reviewer": {
+        "model": "siliconflow/deepseek-ai/DeepSeek-V3.2"
+      },
+      "oracle": {
+        "model": "siliconflow/deepseek-ai/DeepSeek-V3.2"
+      }
     }
   },
   "defaultThinkingLevel": "high",
@@ -41,7 +55,8 @@
       "extensions": [
         "-extensions/prompt-channels/prompt-channels.ts",
         "+extensions/focus-cursor.ts",
-        "+extensions/custom-footer.ts"
+        "-extensions/custom-footer.ts",
+        "-extensions/semantic-search/semantic-search.ts"
       ]
     },
     "npm:pi-subagents",
@@ -54,7 +69,9 @@
     "npm:@diegopetrucci/pi-todo",
     {
       "source": "git:github.com/Ar9av/obsidian-wiki",
-      "skills": ["-skills/skill-creator/SKILL.md"]
+      "skills": [
+        "-skills/skill-creator/SKILL.md"
+      ]
     },
     "git:github.com/kangarooking/cangjie-skill",
     "git:github.com/KKKKhazix/khazix-skills",
@@ -62,7 +79,10 @@
     "npm:pi-webdav-sync",
     "npm:pi-load-skill",
     "npm:@ssweens/pi-handoff",
-    "npm:pi-model-router"
+    "npm:pi-model-router",
+    "npm:pi-powerline-footer",
+    "git:github.com/x-cmd/x-cmd",
+    "npm:@jackwener/opencli"
   ],
   "extensions": []
 }

@@ -127,7 +127,30 @@ cmd_init() {
         print_warning "pi-llm-wiki submodule not found!"
         print_info "Run: git submodule update --init --recursive"
     fi
-    
+
+    # 9. Link pi-artisan submodule
+    print_info "Step 9: Linking pi-artisan..."
+    local artisan_path="${DOTFILES_DIR}/modules/pi-artisan"
+    if [ -d "${artisan_path}/src" ]; then
+        if [ ! -e "${HOME}/projects/pi-artisan" ]; then
+            ln -sf "${artisan_path}" "${HOME}/projects/pi-artisan"
+            print_success "pi-artisan linked: ~/projects/pi-artisan -> modules/pi-artisan"
+        elif [ -L "${HOME}/projects/pi-artisan" ]; then
+            print_success "pi-artisan already linked"
+        else
+            print_warning "~/projects/pi-artisan exists but is not a symlink to submodule"
+        fi
+    else
+        print_warning "pi-artisan submodule not found!"
+        print_info "Run: git submodule update --init --recursive"
+    fi
+
+    # 10. Install pi packages from submodules
+    print_info "Step 10: Installing Pi packages..."
+    if [ -f "${artisan_path}/package.json" ]; then
+        pi install "${artisan_path}" 2>/dev/null && print_success "pi-artisan installed" || print_warning "pi-artisan install failed"
+    fi
+
     echo ""
     print_success "Setup complete!"
     print_info "Restart your shell or run: source ~/.bashrc"

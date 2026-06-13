@@ -1,6 +1,6 @@
 [submodule "modules/pi-llm-wiki"]
 	path = modules/pi-llm-wiki
-	url = https://github.com/iwtown/pi-llm-wiki.git
+	url = https://ghproxy.net/https://github.com/iwtown/pi-llm-wiki.git
 [submodule "modules/pi-artisan"]
 	path = modules/pi-artisan
 	url = https://ghproxy.net/https://github.com/iwtown/pi-artisan.git

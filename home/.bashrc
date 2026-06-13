@@ -76,3 +76,19 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 [ ! -f "$HOME/.x-cmd.root/X" ] || . "$HOME/.x-cmd.root/X" # boot up x-cmd.
+export PATH="$HOME/.local/bin:$PATH"
+
+# OpenCLI 配置
+export OPENCLI_BROWSER_COMMAND_TIMEOUT=90
+export OPENCLI_BROWSER_CONNECT_TIMEOUT=15
+
+# OpenCLI daemon 自启
+opencli daemon status &>/dev/null || opencli daemon start &>/dev/null &
+
+# API Keys（从 .env 加载，不提交到 git）
+if [ -f "$HOME/.env" ]; then
+  set -a; source "$HOME/.env"; set +a
+fi
+
+# WezTerm IME cursor fix
+export PI_HARDWARE_CURSOR=1

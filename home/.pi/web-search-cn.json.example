@@ -1,9 +1,23 @@
+# Web Search CN 配置示例
+# ==========================
+# Tavily → Exa → SerpAPI 三级降级
+#
+# 免费额度:
+#   Tavily  1000次/月  国内直连稳定，自带AI摘要 ← 排第一
+#   Exa     1000次/月  有时可连，适合英文搜索  ← 排第二
+#   SerpAPI 250次/月   支持 baidu/bing          ← 排第三
+#
+# 复制此文件为 web-search-cn.json 并填入 key
+
 {
-  "tavilyApiKey": "your-tavily-key",
-  "serpApiKey": "your-serpapi-key",
+  "tavilyApiKey": "tvly-...",
+  "exaApiKey": "exa-...",
+  "serpApiKey": "your-serp-key",
+
   "count": 5,
   "searchDepth": "basic",
   "includeAnswer": true,
+
   "engine": "google",
   "gl": "cn",
   "hl": "zh-cn"

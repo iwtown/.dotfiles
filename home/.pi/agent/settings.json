@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.79.2",
+  "lastChangelogVersion": "0.79.3",
   "retry": {
     "enabled": true,
     "maxRetries": 3,
@@ -74,7 +74,6 @@
   "showHardwareCursor": true,
   "packages": [
     "npm:pi-context",
-    "npm:@juanibiapina/pi-extension-settings",
     "git:https://github.com/badlogic/pi-skills.git",
     "npm:pi-ask-user",
     {
@@ -83,7 +82,15 @@
         "+extensions/focus-cursor.ts",
         "-extensions/custom-footer.ts",
         "-extensions/semantic-search/semantic-search.ts",
-        "+extensions/prompt-channels/prompt-channels.ts"
+        "-extensions/fork/fork.ts",
+        "+extensions/prompt-channels/prompt-channels.ts",
+        "-extensions/safe-guard/safe-guard.ts",
+        "-extensions/skill-palette/skill-palette.ts",
+        "-extensions/bg-process.ts",
+        "-extensions/rewind/rewind.ts",
+        "-extensions/ide/ide.ts",
+        "-extensions/session-status.ts",
+        "-extensions/output-cap/output-cap.ts"
       ]
     },
     "npm:pi-subagents",
@@ -115,16 +122,30 @@
     "../../projects/pi-llm-wiki",
     "npm:pi-webdav-sync",
     "npm:pi-load-skill",
-    "npm:@ssweens/pi-handoff",
+    {
+      "source": "npm:@ssweens/pi-handoff",
+      "extensions": [
+        "-extensions/handoff.ts"
+      ]
+    },
     "npm:pi-model-router",
     "npm:pi-powerline-footer",
     "git:github.com/x-cmd/x-cmd",
     "npm:@jackwener/opencli",
-    "git:https://ghproxy.net/https://github.com/jackwener/OpenCLI",
-    "../../projects/pi-artisan"
+    "git:github.com/jackwener/OpenCLI",
+    "../../projects/pi-artisan",
+    "npm:@axnic/pi-extension-settings"
   ],
-  "extensions": [],
+  "extensions": [
+    "-extensions/cli-anything/index.ts"
+  ],
   "skills": [
     "-skills/pi-core/context-management/SKILL.md"
-  ]
+  ],
+  "extensions:settings": {
+    "pi-extension-settings": {
+      "behavior.start-in-search-mode": true,
+      "behavior.max-visible-rows": 20
+    }
+  }
 }

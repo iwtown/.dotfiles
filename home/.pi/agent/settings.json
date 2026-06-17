@@ -11,7 +11,7 @@
     }
   },
   "shellPath": "/bin/bash",
-  "defaultProvider": "sensenova",
+  "defaultProvider": "deepseek",
   "defaultModel": "deepseek-v4-flash",
   "quietStartup": true,
   "enabledModels": [

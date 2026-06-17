@@ -92,3 +92,4 @@ fi
 
 # WezTerm IME cursor fix
 export PI_HARDWARE_CURSOR=1
+

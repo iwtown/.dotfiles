@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.79.3",
+  "lastChangelogVersion": "0.79.6",
   "retry": {
     "enabled": true,
     "maxRetries": 3,
@@ -11,31 +11,23 @@
     }
   },
   "shellPath": "/bin/bash",
-  "defaultProvider": "deepseek",
+  "defaultProvider": "sensenova",
   "defaultModel": "deepseek-v4-flash",
   "quietStartup": true,
   "enabledModels": [
-    "deepseek-v4-pro",
-    "deepseek-v4-flash",
-    "deepseek-ai/DeepSeek-V4-Pro",
-    "deepseek-ai/DeepSeek-V4-Flash",
-    "deepseek-ai/DeepSeek-R1",
-    "stepfun-ai/Step-3.5-Flash",
-    "Qwen/Qwen3.5-397B-A17B",
-    "Qwen/Qwen3-Coder-30B-A3B-Instruct",
-    "Qwen/Qwen3.5-122B-A10B",
-    "Qwen/Qwen3-14B",
-    "nex-agi/Nex-N2-Pro",
-    "openrouter/free",
-    "glm-4.7-flash",
-    "glm-4-flash-250414",
-    "glm-4-flash",
-    "glm-4.7",
+    "deepseek/deepseek-v4-flash",
+    "sensenova/deepseek-v4-flash",
+    "opencode-zen/deepseek-v4-flash-free",
+    "deepseek/deepseek-v4-pro",
+    "siliconflow/stepfun-ai/Step-3.5-Flash",
+    "siliconflow/Qwen/Qwen3.5-397B-A17B",
+    "siliconflow/Qwen/Qwen3.6-35B-A3B",
+    "siliconflow/Qwen/Qwen3.5-35B-A3B",
+    "siliconflow/Qwen/Qwen3.5-122B-A10B",
+    "zhipu/glm-4-flash-250414",
     "agnes-2.0-flash",
-    "agnes-1.5-flash",
-    "agnes-image-2.1-flash",
-    "agnes-image-2.0-flash",
-    "agnes-video-v2.0"
+    "sensenova-6.7-flash-lite",
+    "sensenova-u1-fast"
   ],
   "subagents": {
     "agentOverrides": {
@@ -43,7 +35,7 @@
         "model": "deepseek/deepseek-v4-flash"
       },
       "reviewer": {
-        "model": "siliconflow/nex-agi/Nex-N2-Pro"
+        "model": "siliconflow/Qwen/Qwen3-Coder-30B-A3B-Instruct"
       },
       "oracle": {
         "model": "deepseek/deepseek-v4-flash"
@@ -52,18 +44,19 @@
         "model": "zhipu/glm-4-flash-250414"
       },
       "context-builder": {
-        "model": "zhipu/glm-4-flash-250414"
+        "model": "siliconflow/Qwen/Qwen3.6-35B-A3B"
       },
       "planner": {
-        "model": "siliconflow/nex-agi/Nex-N2-Pro"
+        "model": "siliconflow/stepfun-ai/Step-3.5-Flash"
       },
       "scout": {
-        "model": "siliconflow/nex-agi/Nex-N2-Pro"
+        "model": "siliconflow/Qwen/Qwen3.5-35B-A3B"
       },
       "delegate": {
-        "model": "siliconflow/nex-agi/Nex-N2-Pro"
+        "model": "agnes-2.0-flash"
       }
-    }
+    },
+    "fallback": "deepseek/deepseek-v4-flash"
   },
   "defaultThinkingLevel": "high",
   "pi-fork": {
@@ -74,7 +67,6 @@
   "showHardwareCursor": true,
   "packages": [
     "npm:pi-context",
-    "git:https://github.com/badlogic/pi-skills.git",
     "npm:pi-ask-user",
     {
       "source": "npm:@ineersa/my-pi-extensions",
@@ -95,22 +87,10 @@
     },
     "npm:pi-subagents",
     "npm:pi-mcp-adapter",
-    {
-      "source": "npm:pi-simplify",
-      "extensions": [
-        "-dist/index.js"
-      ]
-    },
     "npm:pi-btw",
     "npm:pi-web-access",
     "npm:pi-observational-memory",
     "npm:@tomxprime/planning-with-files",
-    {
-      "source": "npm:@diegopetrucci/pi-todo",
-      "extensions": [
-        "-index.ts"
-      ]
-    },
     {
       "source": "git:github.com/Ar9av/obsidian-wiki",
       "skills": [
@@ -118,23 +98,23 @@
       ]
     },
     "git:github.com/kangarooking/cangjie-skill",
-    "git:github.com/KKKKhazix/khazix-skills",
     "../../projects/pi-llm-wiki",
     "npm:pi-webdav-sync",
     "npm:pi-load-skill",
-    {
-      "source": "npm:@ssweens/pi-handoff",
-      "extensions": [
-        "-extensions/handoff.ts"
-      ]
-    },
     "npm:pi-model-router",
     "npm:pi-powerline-footer",
     "git:github.com/x-cmd/x-cmd",
     "npm:@jackwener/opencli",
     "git:github.com/jackwener/OpenCLI",
     "../../projects/pi-artisan",
-    "npm:@axnic/pi-extension-settings"
+    "npm:@axnic/pi-extension-settings",
+    {
+      "source": "git:github.com/DietrichGebert/ponytail",
+      "extensions": [
+        "pi-extension/index.js"
+      ]
+    },
+    "git:gitee.com/wtown/pi-capabilities.git"
   ],
   "extensions": [
     "-extensions/cli-anything/index.ts"
@@ -147,5 +127,6 @@
       "behavior.start-in-search-mode": true,
       "behavior.max-visible-rows": 20
     }
-  }
+  },
+  "theme": "dark"
 }

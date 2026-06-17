@@ -7,15 +7,19 @@
       "models": [
         {
           "id": "deepseek-v4-pro",
-          "name": "DeepSeek V4 Pro (旗舰)",
-          "input": ["text"],
+          "name": "DeepSeek V4 Pro (\u65d7\u8230)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 1000000,
           "maxTokens": 384000
         },
         {
           "id": "deepseek-v4-flash",
-          "name": "DeepSeek V4 Flash (轻量)",
-          "input": ["text"],
+          "name": "DeepSeek V4 Flash (\u8f7b\u91cf)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 1000000,
           "maxTokens": 384000
         }
@@ -28,94 +32,75 @@
       "models": [
         {
           "id": "deepseek-ai/DeepSeek-V4-Pro",
-          "name": "DeepSeek V4 Pro (镜像)",
-          "input": ["text"],
+          "name": "DeepSeek V4 Pro (\u955c\u50cf)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 1000000,
           "maxTokens": 384000
         },
         {
           "id": "deepseek-ai/DeepSeek-V4-Flash",
-          "name": "DeepSeek V4 Flash (镜像)",
-          "input": ["text"],
+          "name": "DeepSeek V4 Flash (\u955c\u50cf)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 1000000,
           "maxTokens": 384000
         },
         {
-          "id": "deepseek-ai/DeepSeek-V3.2",
-          "name": "DeepSeek V3.2 (平价)",
-          "input": ["text"],
-          "contextWindow": 131072,
-          "maxTokens": 8192
-        },
-        {
-          "id": "deepseek-ai/DeepSeek-R1",
-          "name": "DeepSeek R1 (推理)",
-          "input": ["text"],
-          "contextWindow": 131072,
-          "maxTokens": 8192
-        },
-        {
-          "id": "Qwen/Qwen3.6-35B-A3B",
-          "name": "Qwen3.6 35B MoE",
-          "input": ["text"],
-          "contextWindow": 131072,
-          "maxTokens": 8192
-        },
-        {
-          "id": "Qwen/Qwen3.6-27B",
-          "name": "Qwen3.6 27B",
-          "input": ["text"],
-          "contextWindow": 131072,
-          "maxTokens": 8192
-        },
-        {
           "id": "stepfun-ai/Step-3.5-Flash",
-          "name": "Step 3.5 Flash (编码特化 196B MoE)",
-          "input": ["text"],
+          "name": "Step 3.5 Flash (\u7f16\u7801\u7279\u5316 196B MoE \u00b7 256K\u00b7100-300tok/s)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 256000,
-          "maxTokens": 8192
+          "maxTokens": 16384
         },
         {
           "id": "Qwen/Qwen3.5-397B-A17B",
-          "name": "Qwen3.5 397B MoE (旗舰·输出便宜)",
-          "input": ["text"],
+          "name": "Qwen3.5 397B MoE (\u65d7\u8230\u63a8\u7406 \u00b7 256K\u00b7\u53ef\u6269\u81f31M)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 262144,
-          "maxTokens": 8192
+          "maxTokens": 32768
         },
         {
-          "id": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
-          "name": "Qwen3 Coder 30B MoE (编码特化)",
-          "input": ["text"],
-          "contextWindow": 262144,
-          "maxTokens": 8192
-        },
-        {
-          "id": "Qwen/Qwen3.5-122B-A10B",
-          "name": "Qwen3.5 122B MoE (强推理)",
-          "input": ["text"],
-          "contextWindow": 262144,
-          "maxTokens": 8192
-        },
-        {
-          "id": "Qwen/Qwen3-14B",
-          "name": "Qwen3 14B (均衡)",
-          "input": ["text"],
-          "contextWindow": 131072,
-          "maxTokens": 8192
-        },
-        {
-          "id": "nex-agi/Nex-N2-Pro",
-          "name": "Nex N2 Pro (限免 · 397B旗舰 · 到期需切换)",
-          "input": ["text"],
+          "id": "Qwen/Qwen3.6-35B-A3B",
+          "name": "Qwen3.6 35B MoE (\u6700\u65b0\u7248\u00b7256K\u00b735B\u603b\u53c2\u00b73B\u6fc0\u6d3b)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 262144,
           "maxTokens": 65536
         },
         {
-          "id": "Qwen/Qwen2.5-7B-Instruct",
-          "name": "Qwen2.5 7B (免费)",
-          "input": ["text"],
-          "contextWindow": 32768,
-          "maxTokens": 8192
+          "id": "Qwen/Qwen3.5-35B-A3B",
+          "name": "Qwen3.5 35B MoE (\u8f7b\u91cf\u5feb\u901f\u00b7695ms\u00b7256K\u00b735B\u603b\u53c2\u00b73B\u6fc0\u6d3b)",
+          "input": [
+            "text"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 65536
+        },
+        {
+          "id": "Qwen/Qwen3.5-122B-A10B",
+          "name": "Qwen3.5 122B MoE (\u5f3a\u63a8\u7406\u00b7256K\u00b7122B\u603b\u53c2\u00b710B\u6fc0\u6d3b)",
+          "input": [
+            "text"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 32768
+        },
+        {
+          "id": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+          "name": "Qwen3-Coder 30B MoE (\u4ee3\u7801\u7279\u5316\u00b7256K\u00b730B\u603b\u53c2\u00b73B\u6fc0\u6d3b)",
+          "input": [
+            "text"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 32768
         }
       ]
     },
@@ -126,30 +111,29 @@
       "models": [
         {
           "id": "deepseek-v4-flash-free",
-          "name": "DeepSeek V4 Flash (免费)",
-          "input": ["text"],
+          "name": "DeepSeek V4 Flash (\u514d\u8d39)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 131072,
           "maxTokens": 384000
         },
         {
-          "id": "nemotron-3-super-free",
-          "name": "Nemotron 3 Super (免费)",
-          "input": ["text"],
-          "contextWindow": 256000,
-          "maxTokens": 8192
-        },
-        {
           "id": "big-pickle",
-          "name": "Big Pickle (免费)",
-          "input": ["text"],
+          "name": "Big Pickle (\u514d\u8d39\u00b7\u8def\u7531\u81f3DS V4 Flash)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 131072,
-          "maxTokens": 8192
+          "maxTokens": 32000
         },
         {
-          "id": "mimo-v2.5-free",
-          "name": "MiMo V2.5 (免费)",
-          "input": ["text"],
-          "contextWindow": 131072,
+          "id": "nemotron-3-ultra-free",
+          "name": "Nemotron 3 Ultra (\u514d\u8d39\u00b7550B\u00b7NVIDIA\u65d7\u8230)",
+          "input": [
+            "text"
+          ],
+          "contextWindow": 256000,
           "maxTokens": 8192
         }
       ]
@@ -161,59 +145,103 @@
       "models": [
         {
           "id": "glm-4.7-flash",
-          "name": "GLM-4.7-Flash (免费 · 200K · 永久)",
-          "input": ["text"],
+          "name": "GLM-4.7-Flash (\u514d\u8d39 \u00b7 200K \u00b7 \u6c38\u4e45)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 200000,
           "maxTokens": 128000
         },
         {
           "id": "glm-4-flash-250414",
-          "name": "GLM-4-Flash-250414 (免费 · 128K · 多语言)",
-          "input": ["text"],
+          "name": "GLM-4-Flash-250414 (\u514d\u8d39 \u00b7 128K \u00b7 maxOut16K \u00b7 \u5de5\u5177\u8c03\u7528)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 128000,
           "maxTokens": 16384
         },
         {
-          "id": "glm-4-flash",
-          "name": "GLM-4-Flash (免费 · 128K · 旧版)",
-          "input": ["text"],
-          "contextWindow": 128000,
-          "maxTokens": 8192
-        },
-        {
           "id": "glm-4v-flash",
-          "name": "GLM-4V-Flash (免费 · 视觉)",
-          "input": ["text", "image"],
+          "name": "GLM-4V-Flash (\u514d\u8d39 \u00b7 \u89c6\u89c9)",
+          "input": [
+            "text",
+            "image"
+          ],
           "contextWindow": 8192,
           "maxTokens": 4096
         },
         {
           "id": "glm-4.6v-flash",
-          "name": "GLM-4.6V-Flash (免费 · 多模态视觉)",
-          "input": ["text", "image"],
+          "name": "GLM-4.6V-Flash (\u514d\u8d39 \u00b7 \u591a\u6a21\u6001\u89c6\u89c9)",
+          "input": [
+            "text",
+            "image"
+          ],
           "contextWindow": 8192,
           "maxTokens": 4096
         },
         {
           "id": "cogview-3-flash",
-          "name": "CogView-3-Flash (免费 · 图像生成)",
-          "input": ["text"],
+          "name": "CogView-3-Flash (\u514d\u8d39 \u00b7 \u56fe\u50cf\u751f\u6210)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 4096,
           "maxTokens": 4096
         },
         {
           "id": "cogvideox-flash",
-          "name": "CogVideoX-Flash (免费 · 视频生成)",
-          "input": ["text"],
+          "name": "CogVideoX-Flash (\u514d\u8d39 \u00b7 \u89c6\u9891\u751f\u6210)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 4096,
           "maxTokens": 4096
         },
         {
           "id": "glm-4.7",
-          "name": "GLM-4.7 (资源包 · 500万tokens · ~09-06到期)",
-          "input": ["text"],
+          "name": "GLM-4.7 (\u8d44\u6e90\u5305 \u00b7 500\u4e07tokens \u00b7 ~09-06\u5230\u671f)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 128000,
           "maxTokens": 8192
+        }
+      ]
+    },
+    "sensenova": {
+      "api": "openai-completions",
+      "baseUrl": "https://token.sensenova.cn/v1",
+      "apiKey": "$SENSENOVA_API_KEY",
+      "models": [
+        {
+          "id": "sensenova-6.7-flash-lite",
+          "name": "SenseNova 6.7 Flash-Lite (免费·多模态·256K·办公特化)",
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 65536
+        },
+        {
+          "id": "sensenova-u1-fast",
+          "name": "SenseNova U1 Fast (免费·信息图生成·2K分辨率)",
+          "input": [
+            "text"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 65536
+        },
+        {
+          "id": "deepseek-v4-flash",
+          "name": "DeepSeek V4 Flash (SNS镜像·免费·1M·64K输出)",
+          "input": [
+            "text"
+          ],
+          "contextWindow": 1048576,
+          "maxTokens": 65536
         }
       ]
     },
@@ -224,52 +252,55 @@
       "models": [
         {
           "id": "agnes-2.0-flash",
-          "name": "Agnes 2.0 Flash (免费 · 256K · 工具调用)",
-          "input": ["text"],
+          "name": "Agnes 2.0 Flash (\u514d\u8d39 \u00b7 256K \u00b7 \u5de5\u5177\u8c03\u7528)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 262144,
-          "maxTokens": 16384
-        },
-        {
-          "id": "agnes-1.5-flash",
-          "name": "Agnes 1.5 Flash (免费 · 旧版)",
-          "input": ["text"],
-          "contextWindow": 262144,
-          "maxTokens": 16384
+          "maxTokens": 65536
         },
         {
           "id": "agnes-image-2.1-flash",
-          "name": "Agnes Image 2.1 Flash (免费 · 图像)",
-          "input": ["text"],
+          "name": "Agnes Image 2.1 Flash (\u514d\u8d39 \u00b7 \u56fe\u50cf)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 262144,
           "maxTokens": 4096
         },
         {
           "id": "agnes-image-2.0-flash",
-          "name": "Agnes Image 2.0 Flash (免费 · 图像)",
-          "input": ["text"],
+          "name": "Agnes Image 2.0 Flash (\u514d\u8d39 \u00b7 \u56fe\u50cf)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 262144,
           "maxTokens": 4096
         },
         {
           "id": "agnes-video-v2.0",
-          "name": "Agnes Video V2.0 (免费 · 视频)",
-          "input": ["text"],
+          "name": "Agnes Video V2.0 (\u514d\u8d39 \u00b7 \u89c6\u9891)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 262144,
           "maxTokens": 4096
         }
       ]
     },
-    "openrouter": {
+        "openrouter-free": {
       "api": "openai-completions",
       "baseUrl": "https://openrouter.ai/api/v1",
-      "apiKey": "$OPENROUTER_API_KEY",
+      "apiKey": "$OPENROUTER_FREE_API_KEY",
       "models": [
         {
           "id": "openrouter/free",
-          "name": "Free Router (仅免费)",
-          "input": ["text"],
+          "name": "Free Router (\u514d\u8d39\u667a\u80fd\u8def\u7531\u00b7openrouter.ai)",
+          "input": [
+            "text"
+          ],
           "contextWindow": 200000,
-          "maxTokens": 8192
+          "maxTokens": 16000
         }
       ]
     }

@@ -91,12 +91,6 @@
     "npm:pi-web-access",
     "npm:pi-observational-memory",
     "npm:@tomxprime/planning-with-files",
-    {
-      "source": "../../projects/pi-capabilities/packages/obsidian-wiki",
-      "skills": [
-        "-skills/skill-creator/SKILL.md"
-      ]
-    },
     "../../projects/pi-llm-wiki",
     "npm:pi-webdav-sync",
     "npm:pi-load-skill",

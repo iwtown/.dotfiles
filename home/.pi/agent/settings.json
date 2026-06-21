@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.79.6",
+  "lastChangelogVersion": "0.79.9",
   "retry": {
     "enabled": true,
     "maxRetries": 3,
@@ -11,7 +11,7 @@
     }
   },
   "shellPath": "/bin/bash",
-  "defaultProvider": "deepseek",
+  "defaultProvider": "sensenova",
   "defaultModel": "deepseek-v4-flash",
   "quietStartup": true,
   "enabledModels": [
@@ -47,7 +47,7 @@
         "model": "siliconflow/Qwen/Qwen3.6-35B-A3B"
       },
       "planner": {
-        "model": "siliconflow/stepfun-ai/Step-3.5-Flash"
+        "model": "deepseek/deepseek-v4-flash"
       },
       "scout": {
         "model": "siliconflow/Qwen/Qwen3.5-35B-A3B"
@@ -92,12 +92,12 @@
     "npm:pi-observational-memory",
     "npm:@tomxprime/planning-with-files",
     {
-      "source": "git:github.com/Ar9av/obsidian-wiki",
+      "source": "../../projects/pi-capabilities/packages/obsidian-wiki",
       "skills": [
         "-skills/skill-creator/SKILL.md"
       ]
     },
-    "git:github.com/kangarooking/cangjie-skill",
+    "../../projects/pi-capabilities/packages/cangjie-skill",
     "../../projects/pi-llm-wiki",
     "npm:pi-webdav-sync",
     "npm:pi-load-skill",

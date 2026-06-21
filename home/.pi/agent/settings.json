@@ -97,7 +97,6 @@
         "-skills/skill-creator/SKILL.md"
       ]
     },
-    "../../projects/pi-capabilities/packages/cangjie-skill",
     "../../projects/pi-llm-wiki",
     "npm:pi-webdav-sync",
     "npm:pi-load-skill",

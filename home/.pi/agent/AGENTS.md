@@ -1,5 +1,7 @@
 # Pi Agent 全局配置
 
+> **Ponytail vs 本文档的关系**：Ponytail 管"怎么写"（代码风格、最短路径），本文档管"做不做 / 做之前想什么"（设计决策、澄清需求）。冲突时以本文档为准——安全优先于速度。
+
 ## Core Principles
 
 > 这些原则偏重谨慎，简单任务可自行裁量。
@@ -87,7 +89,7 @@
 
 ## Token 优化
 
-- 优先使用 `rtk <command>` 替代原生命令减少 token 消耗
+- 优先使用 CLI 包装器 `rtk <command>` 替代原生命令减少 token 消耗（CLI 工具，非 agent 内置工具，通过 bash 调用）
 - 支持的常用命令：`rtk ls`、`rtk read`、`rtk tree`、`rtk find`、`rtk grep`
 - Git 操作：`rtk git status`、`rtk git diff`、`rtk git log`
 - 管道 (`|`) 或重定向 (`>`, `<`) 命令不要加 rtk 前缀

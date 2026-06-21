@@ -4,7 +4,9 @@ WSL2 dev env via GNU Stow. Bash + tmux + Pi Agent + CLI tools.
 
 ## Agent 行为指南
 
-**真相来源**：所有配置以 JSON 文件为准，非 AGENTS.md 中的副本。
+## 注意事项
+- Provider/Model 配置以 JSON 为准（下表），本文档中的描述仅供参考
+- 修改配置请编辑 `home/.pi/agent/` 下的对应文件，而非本文档副本
 
 | 配置 | 真相源 |
 |------|--------|

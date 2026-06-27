@@ -107,7 +107,7 @@
     "git:gitee.com/wtown/pi-capabilities.git"
   ],
   "extensions": [
-    "-extensions/cli-anything/index.ts"
+    "-extensions/cli-anything"
   ],
   "skills": [],
   "extensions:settings": {

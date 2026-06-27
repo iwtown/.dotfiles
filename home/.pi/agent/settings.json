@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.79.9",
+  "lastChangelogVersion": "0.80.2",
   "retry": {
     "enabled": true,
     "maxRetries": 3,
@@ -14,6 +14,11 @@
   "defaultProvider": "deepseek",
   "defaultModel": "deepseek-v4-flash",
   "quietStartup": true,
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 16384,
+    "keepRecentTokens": 20000
+  },
   "enabledModels": [
     "deepseek/deepseek-v4-flash",
     "sensenova/deepseek-v4-flash",
@@ -44,7 +49,7 @@
         "model": "zhipu/glm-4-flash-250414"
       },
       "context-builder": {
-        "model": "siliconflow/Qwen/Qwen3.6-35B-A3B"
+        "model": "zhipu/glm-4-flash-250414"
       },
       "planner": {
         "model": "deepseek/deepseek-v4-flash"
@@ -96,25 +101,15 @@
     "npm:pi-load-skill",
     "npm:pi-model-router",
     "npm:pi-powerline-footer",
-    "git:github.com/x-cmd/x-cmd",
     "npm:@jackwener/opencli",
-    "git:github.com/jackwener/OpenCLI",
     "../../projects/pi-artisan",
     "npm:@axnic/pi-extension-settings",
-    {
-      "source": "git:github.com/DietrichGebert/ponytail",
-      "extensions": [
-        "pi-extension/index.js"
-      ]
-    },
     "git:gitee.com/wtown/pi-capabilities.git"
   ],
   "extensions": [
     "-extensions/cli-anything/index.ts"
   ],
-  "skills": [
-    "-skills/pi-core/context-management/SKILL.md"
-  ],
+  "skills": [],
   "extensions:settings": {
     "pi-extension-settings": {
       "behavior.start-in-search-mode": true,

@@ -76,6 +76,26 @@
 - REST API: `http://localhost:27126`（networkingMode=mirrored 直接可达）
 - VS Code: WSL2 Remote 打开项目，Git Diff 审查代码
 
+## Write 工具可靠性（WSL2 特有）
+
+在 WSL2 环境下，`write` 工具报告 "Successfully wrote N bytes" 后文件可能未实际落盘
+（缓冲区未冲刷）。`ls` 的 glob 缓存可能短暂显示文件，但后续 `file`、`stat` 或下游工
+具（如 `resource_git_deploy`）会报告 ENOENT。
+
+**规避方法**（每次写入后执行）：
+
+1. 写完后立即用 `bash stat <path>` 验证文件是否真正落盘
+2. 若 stat 找不到文件，改用 bash heredoc 替代 `write`：
+   ```bash
+   cat > <path> << 'EOF'
+   ...文件内容...
+   EOF
+   ```
+3. 在写入重要文件（SKILL.md、配置文件等）后优先用 `bash heredoc` 而非 `write`
+
+**根因**：`write` 工具实现可能缺少 `fsync()`/`O_SYNC`，ext4 驱动下 page cache
+ 未冲刷到磁盘就返回成功。此问题不影响原生 Linux 环境。
+
 ## GitHub 镜像
 
 - **强制**：所有 GitHub 操作走镜像，直连基本不可用

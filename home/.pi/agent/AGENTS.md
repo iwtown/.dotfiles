@@ -224,6 +224,17 @@ SEARCH  → EXTRACT → VERIFY → SYNTHESIZE → DEPOSIT
 - **SYNTHESIZE** — 去重合并 → claim + source + confidence
 - **DEPOSIT** — 即时回答（会话内）+ wiki 沉淀（session-end 管线自动处理）
 
+### 工具失败回退
+
+```
+web_search 失败/超时       → provider="tavily" 重试，再失败 → browser-act stealth-extract
+platform_search 无结果     → web_search（跨平台补充）
+fetch_content 拿不下来     → browser-act stealth-extract
+opencli site 不通          → 换同类站点，或 web_search
+browser-act 超时           → remote-assist 人工接手
+smart-search 找不到        → ai_chat 做分析推测
+```
+
 ### deep-research vs wiki-research 分工
 
 | 维度 | deep-research | wiki-research |

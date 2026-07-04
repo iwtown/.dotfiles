@@ -183,3 +183,52 @@ Agent 的能力有两种生产方式：**人工封装**（人类预沉淀的 Ski
 **触达路径**：
 1. **手动调用**：`/skill:<name>` 直接执行（即使不在 available_skills 中也生效）
 2. **注册表搜索**：当用户输入匹配 `~/.pi/agent/skills/.on-demand-registry.json` 中的 `triggers` 关键词时 → 用 `read` 读取该 SKILL.md 获取完整指令 → 在本轮 response 中应用。
+
+## 网络搜索与信息使用
+
+> 搜索前先问 wiki（obs_query），已有答案的不搜。搜后信息自动沉淀到 wiki（session-end 管线兜底），agent 不需要手动 capture。
+
+### 工具选择决策树
+
+```
+用户提问 → obs_query 预检（已有答案？→ 直接引用 wiki）
+  ├─ 简单事实查询（日期/版本/定义）     → web_search
+  ├─ 中文社区观点（知乎/B站/小红书）     → platform_search
+  ├─ 已知 URL 内容提取                  → fetch_content
+  ├─ 已知网站结构化数据（GitHub/知乎等）  → opencli <site> <command>
+  ├─ AI 分析/推理/创意                  → ai_chat（deepseek/qwen/doubao）
+  ├─ 反爬/JS 重/验证码                  → browser-act stealth-extract
+  ├─ 需登录态/已有浏览器标签             → opencli-browser
+  ├─ 二进制文档（PDF/DOCX/PPTX/图片）    → markitdown → 转为 Markdown
+  ├─ 深度多来源事实核查                  → deep-research（5 阶段，产出临时报告）
+  ├─ 永久存入知识库                     → wiki-research（搜索→综合→写入 wiki）
+  └─ 不确定用哪个工具                   → smart-search 路由器
+```
+
+**路由规则**（优先级从高到低）：
+1. obs_query 预检高于一切（已有答案不搜）
+2. 能用一个工具的不并发多个
+3. 优先内置工具（零成本）→ 外部 CLI → Skill 管线
+4. 频率预算：AI 站点 1 次/题，非 AI 站点 ≤2 次/题
+
+### 信息转化 5 步闭环
+
+```
+SEARCH  → EXTRACT → VERIFY → SYNTHESIZE → DEPOSIT
+ 搜索      提取      验证      综合         沉淀
+```
+
+- **SEARCH** — 按决策树选工具执行搜索
+- **EXTRACT** — 提取原文 + 来源元数据（URL/日期/作者）
+- **VERIFY** — 交叉引用，至少 2 个独立来源确认同一事实
+- **SYNTHESIZE** — 去重合并 → claim + source + confidence
+- **DEPOSIT** — 即时回答（会话内）+ wiki 沉淀（session-end 管线自动处理）
+
+### deep-research vs wiki-research 分工
+
+| 维度 | deep-research | wiki-research |
+|------|--------------|---------------|
+| 产出 | 临时报告（会话内） | 永久 wiki 页面 |
+| 触发 | "deep research"、"fact check" | "/wiki-research"、"存到 wiki" |
+| 方法 | 5 阶段 + 对抗验证 | 搜索→综合→直接写入 wiki |
+| 互引 | 需要永久保存→用 wiki-research | 需要临时报告→用 deep-research |

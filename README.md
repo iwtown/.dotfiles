@@ -124,6 +124,31 @@ source ~/.bashrc
 - Pi 搜索 API key 在 `~/.pi/web-search*.json`（从 `.example` 模板复制）
 - `.gitignore` 阻止所有敏感文件提交
 
+## Pi Agent 配置参考
+
+### settings.json 选择器语法
+
+`home/.pi/agent/settings.json` 使用 `+`/`-` 前缀精细控制包内的扩展和技能：
+
+```json
+{
+  "source": "npm:@ineersa/my-pi-extensions",
+  "extensions": [
+    "+extensions/focus-cursor.ts",    // 只开启 focus-cursor
+    "-extensions/custom-footer.ts",   // 排除 custom-footer
+    "-skills/book2skill/SKILL.md"     // 排除 book2skill 技能
+  ]
+}
+```
+
+| 前缀 | 含义 | 示例 |
+|------|------|------|
+| `+` | 只开启此项（白名单） | `+extensions/focus-cursor.ts` |
+| `-` | 排除此项（黑名单） | `-extensions/custom-footer.ts` |
+| 无前缀 | 全部开启（默认） | `"extensions/cli-anything"` |
+
+选择器路径相对于包的根目录。此语法由 Pi 原生支持，详见 Pi SDK 文档。
+
 ## 灵感
 
 借鉴 [dmmulroy/.dotfiles](https://github.com/dmmulroy/.dotfiles) 的 Stow + CLI 模式。

@@ -93,3 +93,6 @@ fi
 # WezTerm IME cursor fix
 export PI_HARDWARE_CURSOR=1
 
+
+# opencode
+export PATH=/home/wtown/.opencode/bin:$PATH

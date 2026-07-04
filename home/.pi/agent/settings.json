@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.80.2",
+  "lastChangelogVersion": "0.80.3",
   "retry": {
     "enabled": true,
     "maxRetries": 3,
@@ -40,19 +40,20 @@
         "model": "deepseek/deepseek-v4-flash"
       },
       "reviewer": {
-        "model": "siliconflow/Qwen/Qwen3-Coder-30B-A3B-Instruct"
+        "model": "siliconflow/moonshotai/Kimi-K2.7-Code"
       },
       "oracle": {
-        "model": "deepseek/deepseek-v4-flash"
+        "model": "deepseek/deepseek-v4-pro"
       },
       "researcher": {
-        "model": "zhipu/glm-4-flash-250414"
+        "model": "zhipu/glm-4.7-flash",
+        "fallbackModels": ["zhipu/glm-4-flash-250414"]
       },
       "context-builder": {
         "model": "zhipu/glm-4-flash-250414"
       },
       "planner": {
-        "model": "deepseek/deepseek-v4-flash"
+        "model": "deepseek/deepseek-v4-pro"
       },
       "scout": {
         "model": "siliconflow/Qwen/Qwen3.5-35B-A3B"
@@ -104,12 +105,26 @@
     "npm:@jackwener/opencli",
     "../../projects/pi-artisan",
     "npm:@axnic/pi-extension-settings",
-    "git:gitee.com/wtown/pi-capabilities.git"
+    {
+      "source": "git:gitee.com/wtown/pi-capabilities.git",
+      "extensions": [
+        "-extensions/cli-anything/index.ts"
+      ],
+      "skills": [
+        "-skills/book2skill/SKILL.md",
+        "-skills/obsidian-wiki/claude-history-ingest/SKILL.md",
+        "-skills/obsidian-wiki/codex-history-ingest/SKILL.md",
+        "-skills/obsidian-wiki/copilot-history-ingest/SKILL.md",
+        "-skills/obsidian-wiki/hermes-history-ingest/SKILL.md"
+      ]
+    }
   ],
   "extensions": [
     "-extensions/cli-anything"
   ],
-  "skills": [],
+  "skills": [
+    "+skills/x-cmd/SKILL.md"
+  ],
   "extensions:settings": {
     "pi-extension-settings": {
       "behavior.start-in-search-mode": true,

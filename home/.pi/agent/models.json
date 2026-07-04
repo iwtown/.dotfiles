@@ -12,7 +12,26 @@
             "text"
           ],
           "contextWindow": 1000000,
-          "maxTokens": 384000
+          "maxTokens": 384000,
+          "reasoning": true,
+          "thinkingLevelMap": { "minimal": null, "low": null, "medium": null, "high": "high", "xhigh": "max" },
+          "cost": {
+            "input": 0.435,
+            "output": 0.87,
+            "cacheRead": 0.003625,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "requiresReasoningContentOnAssistantMessages": true,
+            "thinkingFormat": "deepseek",
+            "reasoningEffortMap": {
+              "minimal": "high",
+              "low": "high",
+              "medium": "high",
+              "high": "high",
+              "xhigh": "max"
+            }
+          }
         },
         {
           "id": "deepseek-v4-flash",
@@ -21,7 +40,26 @@
             "text"
           ],
           "contextWindow": 1000000,
-          "maxTokens": 384000
+          "maxTokens": 384000,
+          "reasoning": true,
+          "thinkingLevelMap": { "minimal": null, "low": null, "medium": null, "high": "high", "xhigh": "max" },
+          "cost": {
+            "input": 0.14,
+            "output": 0.28,
+            "cacheRead": 0.0028,
+            "cacheWrite": 0
+          },
+          "compat": {
+            "requiresReasoningContentOnAssistantMessages": true,
+            "thinkingFormat": "deepseek",
+            "reasoningEffortMap": {
+              "minimal": "high",
+              "low": "high",
+              "medium": "high",
+              "high": "high",
+              "xhigh": "max"
+            }
+          }
         }
       ]
     },

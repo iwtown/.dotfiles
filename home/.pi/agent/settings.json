@@ -12,7 +12,7 @@
   },
   "shellPath": "/bin/bash",
   "defaultProvider": "deepseek",
-  "defaultModel": "deepseek-v4-flash",
+  "defaultModel": "deepseek-v4-pro",
   "quietStartup": true,
   "compaction": {
     "enabled": true,
@@ -47,7 +47,9 @@
       },
       "researcher": {
         "model": "zhipu/glm-4.7-flash",
-        "fallbackModels": ["zhipu/glm-4-flash-250414"]
+        "fallbackModels": [
+          "zhipu/glm-4-flash-250414"
+        ]
       },
       "context-builder": {
         "model": "zhipu/glm-4-flash-250414"
@@ -96,7 +98,7 @@
     "npm:pi-btw",
     "npm:pi-web-access",
     "npm:pi-observational-memory",
-    "npm:@tomxprime/planning-with-files",
+    "/home/wtown/.pi/agent/skills/pi-planning-with-files",
     "../../projects/pi-llm-wiki",
     "npm:pi-webdav-sync",
     "npm:pi-load-skill",
@@ -117,7 +119,12 @@
         "-skills/obsidian-wiki/copilot-history-ingest/SKILL.md",
         "-skills/obsidian-wiki/hermes-history-ingest/SKILL.md"
       ]
-    }
+    },
+    "git:github.com/DietrichGebert/ponytail",
+    "npm:@forecastx/deep-research",
+    "npm:pi-rtk",
+    "npm:@chankov/agent-skills",
+    "npm:pi-agent-browser-native"
   ],
   "extensions": [
     "-extensions/cli-anything"
@@ -131,5 +138,6 @@
       "behavior.max-visible-rows": 20
     }
   },
-  "theme": "dark"
+  "theme": "dark",
+  "editorPaddingX": 0
 }
